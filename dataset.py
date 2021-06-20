@@ -1,5 +1,4 @@
 import numpy as np
-#import os
 import random
 
 class Dataset:
@@ -43,7 +42,6 @@ class Dataset:
                 if word not in vocabulary:
                     vocabulary.append(word)
 
-        #vocabulary = sorted(vocabulary)
         vocab_size = len(vocabulary)
         print('... found %d distinct words ...' % vocab_size)
         return vocabulary, vocab_size
@@ -103,8 +101,6 @@ class Dataset:
         # if our context length is too long, pick another
         random_context_length = random.randint(1, window)
         while len(sentence) < 2 * random_context_length + 1:
-            #print(len(sentence), random_context_length)
-            #input()
             random_context_length = random.randint(1, window)
 
         # alternative solution - discard the sentence and start over
@@ -139,18 +135,11 @@ class Dataset:
             sample_freq[idx] = frequency
         sample_freq /= np.sum(sample_freq)
 
-
-
         table_size = 1000000
         word_table = np.zeros(table_size, dtype=np.int32)
         samples = sample_freq * table_size
         w_table_idx = 0
-        """
-        for sample in samples:
-            for _ in range(int(sample)):
-                word_table[w_table_idx] = int(sample)
-                w_table_idx += 1
-        """
+
         for word_idx, sample in enumerate(samples):
             for _ in range(int(sample)):
                 word_table[w_table_idx] = word_idx

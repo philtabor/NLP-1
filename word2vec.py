@@ -22,12 +22,7 @@ class Word2Vec:
                                         loc=0.0, scale=0.01).astype(np.float32)
         self.outside_word_vectors = np.random.normal(size=(vocab_size,vec_size),
                                         loc=0.0, scale=0.01).astype(np.float32)
-        """    
-        self.center_word_vectors = (np.random.rand(vocab_size, 
-                                          vec_size) - 0.5)/10
-        self.outside_word_vectors = (np.random.rand(vocab_size, 
-                                          vec_size) - 0.5)/10
-        """
+
     def softmax_loss(self, center_word_vec, outside_word_idx):
         theta = np.dot(self.outside_word_vectors, center_word_vec)
         p = np.zeros((self.vocab_size,), dtype=np.float32)
@@ -74,11 +69,11 @@ class Word2Vec:
         w_c = self.center_word_vectors[w_c_idx]
 
         for idx in w_o_idx:
-            J, dJ_dvc, dJ_duo = loss_and_gradient_f(center_word_vec=w_c,
+            J, dJ_dwc, dJ_dwo = loss_and_gradient_f(center_word_vec=w_c,
                                                     outside_word_idx=idx)
             loss += J
-            grad_center_vecs[w_c_idx] += dJ_dvc
-            grad_outside_vectors += dJ_duo
+            grad_center_vecs[w_c_idx] += dJ_dwc
+            grad_outside_vectors += dJ_dwo
         return loss, grad_center_vecs, grad_outside_vectors
 
     def apply_gradients(self, grad_v, grad_u, learning_rate=0.1):
