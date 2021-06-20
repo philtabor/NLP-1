@@ -1,6 +1,9 @@
 """ Tester code for student's implementation of negative sampling. 
     Load the Stanford IMDB movie review dataset and generate 10
     negative samples using known random seeds.
+
+    Please note, this code will fail after we have implemented the more
+    efficient algorithm for generating negative indices.
 """
 
 import random

@@ -135,6 +135,17 @@ class Dataset:
             sample_freq[idx] = frequency
         sample_freq /= np.sum(sample_freq)
 
+        # each row in sample_freq corresponds to an index of a vocab word
+        # each element is the probability of drawing that word
+        # multiply by 1 million to get something like ~1000, 100, etc.
+        # fill up a 1 million element array with a proportionate amount
+        # of the row index from the sample_freq array
+        # sample_freq:
+        # 0     1.3559e-02    13559 'the'
+        # 1     1.8911e-04    189   'rock'
+        # word_table[0:13559] = 0
+        # word_table[13559:13748] = 1
+        
         table_size = 1000000
         word_table = np.zeros(table_size, dtype=np.int32)
         samples = sample_freq * table_size
